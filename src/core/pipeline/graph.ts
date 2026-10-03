@@ -1,5 +1,9 @@
 import { Annotation, StateGraph } from "@langchain/langgraph";
-import { executeAgentStep, initializePipeline } from "./node";
+import {
+  executeAgentStep,
+  executeSecondAgentStep,
+  initializePipeline,
+} from "./node";
 
 const PipelineState = Annotation.Root({
   taskId: Annotation<string>,
@@ -17,8 +21,11 @@ const PipelineState = Annotation.Root({
 const pipeline = new StateGraph(PipelineState)
   .addNode("initialize", initializePipeline)
   .addNode("agent", executeAgentStep)
+  .addNode("agent2", executeSecondAgentStep)
   .addEdge("__start__", "initialize")
   .addEdge("initialize", "agent")
-  .addEdge("agent", "__end__");
+  .addEdge("agent", "agent2")
+  .addEdge("agent2", "__end__");
+
 
 export { PipelineState, pipeline };
