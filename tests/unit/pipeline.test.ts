@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { pipeline } from "@/core/pipeline/graph";
 
 describe("pipeline", () => {
-  it("executes the initialization node", async () => {
+  it("executes the agent step", async () => {
     const app = pipeline.compile();
 
     const result = await app.invoke({
@@ -13,6 +13,9 @@ describe("pipeline", () => {
 
     expect(result.taskId).toBe("test-task");
     expect(result.strategy).toBe("A");
-    expect(result.steps).toEqual([]);
+    expect(result.steps).toHaveLength(1);
+    expect(result.steps[0].stepId).toBe("step-1");
+    expect(result.steps[0].agentId).toBe("agent-1");
+    expect(result.steps[0].output).toBe("Agent 1 completed its step.");
   });
 });
