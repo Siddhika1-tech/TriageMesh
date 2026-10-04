@@ -36,3 +36,20 @@ export function executeSecondAgentStep(
     steps: [...state.steps, step],
   };
 }
+export function executeThirdAgentStep(
+  state: PipelineState,
+): PipelineState {
+  const previousStep = state.steps.at(-1);
+
+  const step = {
+    stepId: "step-3",
+    agentId: "agent-3",
+    input: previousStep?.output ?? "",
+    output: "Agent 3 completed its step.",
+  };
+
+  return {
+    ...state,
+    steps: [...state.steps, step],
+  };
+}
