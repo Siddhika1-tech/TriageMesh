@@ -21,3 +21,10 @@ export type PipelineState = {
   riskLevel?: RiskLevel;
   confidenceEstimate?: ConfidenceLevel;
 };
+
+export type PipelineResult = {
+  taskId: string;
+  taskInput: string;
+  strategy: Strategy;
+  steps: PipelineStep[];
+};
