@@ -14,6 +14,7 @@ export type PipelineStep = {
 
 export type PipelineState = {
   taskId: string;
+  taskInput: string;
   strategy: Strategy;
   steps: PipelineStep[];
   failureType?: FailureType;

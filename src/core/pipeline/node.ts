@@ -10,7 +10,9 @@ export function executeAgentStep(state: PipelineState): PipelineState {
   const step = {
     stepId: `step-${stepNumber}`,
     agentId: `agent-${stepNumber}`,
-    input: state.steps.length === 0 ? "Initial task input" : state.steps.at(-1)?.output ?? "",
+    input: state.steps.length === 0
+  ? state.taskInput
+  : state.steps.at(-1)?.output ?? "",
     output: `Agent ${stepNumber} completed its step.`,
   };
 
@@ -46,6 +48,23 @@ export function executeThirdAgentStep(
     agentId: "agent-3",
     input: previousStep?.output ?? "",
     output: "Agent 3 completed its step.",
+  };
+
+  return {
+    ...state,
+    steps: [...state.steps, step],
+  };
+}
+export function executeFourthAgentStep(
+  state: PipelineState,
+): PipelineState {
+  const previousStep = state.steps.at(-1);
+
+  const step = {
+    stepId: "step-4",
+    agentId: "agent-4",
+    input: previousStep?.output ?? "",
+    output: "Agent 4 completed its step.",
   };
 
   return {
