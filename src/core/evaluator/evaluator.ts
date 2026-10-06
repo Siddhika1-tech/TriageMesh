@@ -5,9 +5,11 @@ export type EvaluationResult = {
   failureDetected: boolean;
 };
 
-export function evaluateStep(step: PipelineStep): EvaluationResult {
-  return {
+export function evaluatePipelineSteps(
+  steps: PipelineStep[],
+): EvaluationResult[] {
+  return steps.map((step) => ({
     stepId: step.stepId,
     failureDetected: false,
-  };
+  }));
 }
