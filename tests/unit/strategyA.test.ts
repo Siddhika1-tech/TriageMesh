@@ -10,5 +10,7 @@ describe("strategy A", () => {
 
     expect(result.strategy).toBe("A");
     expect(result.steps).toHaveLength(4);
+    expect(result.steps[0].stepId).toBe("step-1");
+    expect(result.steps[3].stepId).toBe("step-4");
   });
 });
