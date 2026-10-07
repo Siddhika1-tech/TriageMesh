@@ -23,5 +23,6 @@ describe("evaluator", () => {
     expect(result[1].stepId).toBe("step-2");
     expect(result[0].failureDetected).toBe(false);
     expect(result[1].failureDetected).toBe(false);
+    expect(result[0].failureType).toBeUndefined();
   });
 });
