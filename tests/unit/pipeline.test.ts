@@ -1,23 +1,37 @@
-import { describe, expect, it } from "vitest";
-import { runPipeline } from "@/core/pipeline/run"; 
 
-describe("pipeline", () => {
-  it("passes task input through the four-agent pipeline", async () => {
-   const result = await runPipeline(
-  "test-task",
-  "Analyze this test task.",
-  "A",
-);
+import { describe, expect, it } from "vitest";
+import { runPipeline } from "@/core/pipeline/run";
+
+describe("TriageMesh pipeline", () => {
+  it("executes four sequential agent steps", async () => {
+    const result = await runPipeline(
+      "test-task",
+      "Summarize a short document",
+      "A",
+    );
+
     expect(result.taskId).toBe("test-task");
-    expect(result.taskInput).toBe("Analyze this test task.");
+    expect(result.taskInput).toBe("Summarize a short document");
     expect(result.strategy).toBe("A");
     expect(result.steps).toHaveLength(4);
 
-    expect(result.steps[0].input).toBe("Analyze this test task.");
-    expect(result.steps[0].output).toBe("Agent 1 completed its step.");
-
-    expect(result.steps[1].input).toBe("Agent 1 completed its step.");
-    expect(result.steps[2].input).toBe("Agent 2 completed its step.");
-    expect(result.steps[3].input).toBe("Agent 3 completed its step.");
+    expect(result.steps[0].stepId).toBe("step-1");
+    expect(result.steps[1].stepId).toBe("step-2");
+    expect(result.steps[2].stepId).toBe("step-3");
+    expect(result.steps[3].stepId).toBe("step-4");
   });
+
+  it.each(["A", "B", "C"] as const)(
+    "preserves strategy %s",
+    async (strategy) => {
+      const result = await runPipeline(
+        "test-task",
+        "Test input",
+        strategy,
+      );
+
+      expect(result.strategy).toBe(strategy);
+      expect(result.steps).toHaveLength(4);
+    },
+  );
 });

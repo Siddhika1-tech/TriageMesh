@@ -1,5 +1,3 @@
-export type Strategy = "A" | "B" | "C";
-
 export type FailureType =
   | "SPECIFICATION"
   | "COORDINATION"
@@ -8,3 +6,10 @@ export type FailureType =
 export type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
 
 export type ConfidenceLevel = "LOW" | "MEDIUM" | "HIGH";
+
+export type TriageResult = {
+  failureDetected: boolean;
+  failureType?: FailureType;
+  riskLevel: RiskLevel;
+  evidence: string[];
+};
