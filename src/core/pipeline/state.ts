@@ -28,3 +28,9 @@ export type PipelineResult = {
   strategy: Strategy;
   steps: PipelineStep[];
 };
+export type TriageResult = {
+  failureDetected: boolean;
+  failureType?: FailureType;
+  riskLevel: RiskLevel;
+  evidence: string[];
+};

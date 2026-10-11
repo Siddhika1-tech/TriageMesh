@@ -13,3 +13,4 @@ export type TriageResult = {
   riskLevel: RiskLevel;
   evidence: string[];
 };
+export type Strategy = "A" | "B" | "C";

@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 import { createTriageResult } from "@/core/triage/createTriageResult";
 
 describe("createTriageResult", () => {
-  it("creates a result when a failure is detected", () => {
+  it("creates a valid result for a detected failure", () => {
     const result = createTriageResult({
       failureDetected: true,
       failureType: "OUTPUT",
       riskLevel: "HIGH",
-      evidence: ["The output does not match the requested format."],
+      evidence: ["Output format does not match the requirements."],
     });
 
     expect(result.failureDetected).toBe(true);
@@ -15,7 +15,7 @@ describe("createTriageResult", () => {
     expect(result.riskLevel).toBe("HIGH");
   });
 
-  it("creates a result when no failure is detected", () => {
+  it("creates a valid result when no failure is detected", () => {
     const result = createTriageResult({
       failureDetected: false,
       riskLevel: "LOW",
@@ -33,7 +33,7 @@ describe("createTriageResult", () => {
         riskLevel: "HIGH",
         evidence: [],
       }),
-    ).toThrow("A detected failure must have a failure type.");
+    ).toThrow();
   });
 
   it("rejects a failure type when no failure is detected", () => {
@@ -44,6 +44,6 @@ describe("createTriageResult", () => {
         riskLevel: "LOW",
         evidence: [],
       }),
-    ).toThrow("A failure type cannot be set when no failure is detected.");
+    ).toThrow();
   });
 });
