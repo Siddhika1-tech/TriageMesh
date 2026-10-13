@@ -1,13 +1,11 @@
 import type { EvaluationResult } from "@/core/evaluator/evaluator";
 
-export type TriageResult = {
+export type TriageRoutingResult = {
   stepId: string;
   needsVerification: boolean;
 };
 
-export function triageStep(
-  evaluation: EvaluationResult,
-): TriageResult {
+export function triageStep(evaluation: EvaluationResult): TriageRoutingResult {
   return {
     stepId: evaluation.stepId,
     needsVerification: evaluation.failureDetected,
