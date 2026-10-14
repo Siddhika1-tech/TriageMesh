@@ -28,5 +28,6 @@ create table metrics (
   run_id uuid not null references runs(id),
   verification_calls integer not null default 0,
   total_tokens integer not null default 0,
-  latency_ms integer not null default 0
+  latency_ms integer not null default 0,
+  reliability numeric(5, 4) not null default 0
 );
