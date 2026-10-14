@@ -4,6 +4,7 @@ export type VerificationResult = {
   stepId: string;
   verifier: "SPECIFICATION";
   passed: boolean;
+  evidence: string;
 };
 
 export function verifySpecification(
@@ -12,6 +13,8 @@ export function verifySpecification(
   return {
     stepId: step.stepId,
     verifier: "SPECIFICATION",
-    passed: true,
+    passed: step.input.trim().length > 0 && step.output.trim().length > 0 &&
+      !step.output.includes("[failure:SPECIFICATION]"),
+    evidence: "Checked that the step had observable input and output.",
   };
 }

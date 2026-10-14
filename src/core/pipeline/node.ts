@@ -1,70 +1,22 @@
 import type { PipelineState } from "./state";
+import { executeAgent } from "@/core/agents/executor";
 
 export function initializePipeline(state: PipelineState): PipelineState {
   return state;
 }
 
-export function executeAgentStep(state: PipelineState): PipelineState {
+export async function executeAgentStep(state: PipelineState): Promise<PipelineState> {
   const stepNumber = state.steps.length + 1;
-
+  const input = state.steps.length === 0
+    ? state.taskInput
+    : state.steps.at(-1)?.output ?? "";
+  const agentResult = await executeAgent(stepNumber, input);
   const step = {
     stepId: `step-${stepNumber}`,
     agentId: `agent-${stepNumber}`,
-    input: state.steps.length === 0
-  ? state.taskInput
-  : state.steps.at(-1)?.output ?? "",
-    output: `Agent ${stepNumber} completed its step.`,
-  };
-
-  return {
-    ...state,
-    steps: [...state.steps, step],
-  };
-}
-export function executeSecondAgentStep(
-  state: PipelineState,
-): PipelineState {
-  const previousStep = state.steps.at(-1);
-
-  const step = {
-    stepId: "step-2",
-    agentId: "agent-2",
-    input: previousStep?.output ?? "",
-    output: "Agent 2 completed its step.",
-  };
-
-  return {
-    ...state,
-    steps: [...state.steps, step],
-  };
-}
-export function executeThirdAgentStep(
-  state: PipelineState,
-): PipelineState {
-  const previousStep = state.steps.at(-1);
-
-  const step = {
-    stepId: "step-3",
-    agentId: "agent-3",
-    input: previousStep?.output ?? "",
-    output: "Agent 3 completed its step.",
-  };
-
-  return {
-    ...state,
-    steps: [...state.steps, step],
-  };
-}
-export function executeFourthAgentStep(
-  state: PipelineState,
-): PipelineState {
-  const previousStep = state.steps.at(-1);
-
-  const step = {
-    stepId: "step-4",
-    agentId: "agent-4",
-    input: previousStep?.output ?? "",
-    output: "Agent 4 completed its step.",
+    input,
+    output: agentResult.output,
+    confidenceEstimate: agentResult.confidenceEstimate,
   };
 
   return {

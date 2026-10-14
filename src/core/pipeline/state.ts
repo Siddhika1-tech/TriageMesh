@@ -1,15 +1,11 @@
-import type {
-  ConfidenceLevel,
-  FailureType,
-  RiskLevel,
-  Strategy,
-} from "@/types";
+import type { Strategy } from "@/types";
 
 export type PipelineStep = {
   stepId: string;
   agentId: string;
   input: string;
   output: string;
+  confidenceEstimate?: number;
 };
 
 export type PipelineState = {
@@ -17,9 +13,6 @@ export type PipelineState = {
   taskInput: string;
   strategy: Strategy;
   steps: PipelineStep[];
-  failureType?: FailureType;
-  riskLevel?: RiskLevel;
-  confidenceEstimate?: ConfidenceLevel;
 };
 
 export type PipelineResult = {
@@ -27,10 +20,12 @@ export type PipelineResult = {
   taskInput: string;
   strategy: Strategy;
   steps: PipelineStep[];
+  metrics: PipelineMetrics;
 };
-export type TriageResult = {
-  failureDetected: boolean;
-  failureType?: FailureType;
-  riskLevel: RiskLevel;
-  evidence: string[];
+
+export type PipelineMetrics = {
+  verificationCalls: number;
+  totalTokens: number;
+  latencyMs: number;
+  reliability: number;
 };

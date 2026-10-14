@@ -1,4 +1,5 @@
 import { pipeline } from "./graph";
+import { createPipelineMetrics } from "@/core/metrics";
 
 export async function runPipeline(
   taskId: string,
@@ -7,10 +8,16 @@ export async function runPipeline(
 ) {
   const app = pipeline.compile();
 
-  return app.invoke({
+  const startedAt = performance.now();
+  const result = await app.invoke({
     taskId,
     taskInput,
     strategy,
     steps: [],
   });
+
+  return {
+    ...result,
+    metrics: createPipelineMetrics(result.steps, performance.now() - startedAt),
+  };
 }

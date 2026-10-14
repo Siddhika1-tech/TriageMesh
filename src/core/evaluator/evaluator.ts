@@ -8,23 +8,39 @@ export type EvaluationResult = {
   failureType?: FailureType;
 };
 
+function classifyObservableFailure(step: PipelineStep): EvaluationResult {
+  const output = step.output.trim();
+  const failureMarker = output.match(/\[failure:(SPECIFICATION|COORDINATION|OUTPUT)\]/);
+
+  if (failureMarker) {
+    return {
+      stepId: step.stepId,
+      failureDetected: true,
+      failureType: failureMarker[1] as FailureType,
+    };
+  }
+
+  if (!output) {
+    return {
+      stepId: step.stepId,
+      failureDetected: true,
+      failureType: "OUTPUT",
+    };
+  }
+
+  if (!step.input.trim()) {
+    return {
+      stepId: step.stepId,
+      failureDetected: true,
+      failureType: "COORDINATION",
+    };
+  }
+
+  return { stepId: step.stepId, failureDetected: false };
+}
+
 export function evaluatePipelineSteps(
   steps: PipelineStep[],
 ): EvaluationResult[] {
-  return steps.map((step) => {
-    const output = step.output.trim();
-
-    if (!output) {
-      return {
-        stepId: step.stepId,
-        failureDetected: true,
-        failureType: "OUTPUT",
-      };
-    }
-
-    return {
-      stepId: step.stepId,
-      failureDetected: false,
-    };
-  });
+  return steps.map(classifyObservableFailure);
 }

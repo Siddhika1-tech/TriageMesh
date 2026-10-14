@@ -3,8 +3,11 @@ export type FailureType =
   | "COORDINATION"
   | "OUTPUT";
 
-export type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
+export type Strategy = "A" | "B" | "C";
 
+export type VerifierType = FailureType;
+
+export type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
 export type ConfidenceLevel = "LOW" | "MEDIUM" | "HIGH";
 
 export type TriageResult = {
@@ -13,4 +16,3 @@ export type TriageResult = {
   riskLevel: RiskLevel;
   evidence: string[];
 };
-export type Strategy = "A" | "B" | "C";

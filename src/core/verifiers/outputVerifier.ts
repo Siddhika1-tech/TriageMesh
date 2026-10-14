@@ -4,6 +4,7 @@ export type OutputVerificationResult = {
   stepId: string;
   verifier: "OUTPUT";
   passed: boolean;
+  evidence: string;
 };
 
 export function verifyOutput(
@@ -12,6 +13,8 @@ export function verifyOutput(
   return {
     stepId: step.stepId,
     verifier: "OUTPUT",
-    passed: true,
+    passed: step.output.trim().length > 0 &&
+      !step.output.includes("[failure:OUTPUT]"),
+    evidence: "Checked that the step produced non-empty observable output.",
   };
 }

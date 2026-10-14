@@ -4,6 +4,7 @@ export type CoordinationVerificationResult = {
   stepId: string;
   verifier: "COORDINATION";
   passed: boolean;
+  evidence: string;
 };
 
 export function verifyCoordination(
@@ -12,6 +13,8 @@ export function verifyCoordination(
   return {
     stepId: step.stepId,
     verifier: "COORDINATION",
-    passed: true,
+    passed: step.input.trim().length > 0 && step.output.trim().length > 0 &&
+      !step.output.includes("[failure:COORDINATION]"),
+    evidence: "Checked that the step received observable upstream content.",
   };
 }

@@ -1,9 +1,6 @@
 import { Annotation, StateGraph } from "@langchain/langgraph";
 import {
   executeAgentStep,
-  executeSecondAgentStep,
-  executeThirdAgentStep,
-  executeFourthAgentStep,
   initializePipeline,
 } from "./node";
 
@@ -24,9 +21,9 @@ const PipelineState = Annotation.Root({
 const pipeline = new StateGraph(PipelineState)
   .addNode("initialize", initializePipeline)
   .addNode("agent", executeAgentStep)
-  .addNode("agent2", executeSecondAgentStep)
-  .addNode("agent3", executeThirdAgentStep)
-  .addNode("agent4", executeFourthAgentStep)
+  .addNode("agent2", executeAgentStep)
+  .addNode("agent3", executeAgentStep)
+  .addNode("agent4", executeAgentStep)
   .addEdge("__start__", "initialize")
   .addEdge("initialize", "agent")
   .addEdge("agent", "agent2")
